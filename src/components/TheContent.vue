@@ -5,7 +5,9 @@
                 Sua lista:
             </span>
             <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
-                <li v-for="(ingrediente, index) in ingredientes" :key="index" class="ingrediente">{{ ingrediente }}</li>
+                <li v-for="(ingrediente, index) in ingredientes" :key="index">
+<TagText :texto="ingrediente" ativa ></TagText>
+                </li>
                
             </ul>
 
@@ -22,6 +24,9 @@
 
 
 <script>
+import TagText from './TagText.vue';
+
+
 import TheSelectIngredient from './TheSelectIngredient.vue';
 
 
@@ -33,7 +38,8 @@ export default {
         
     },
     components : {
-      TheSelectIngredient
+      TheSelectIngredient, 
+      TagText
     }
 }
 
@@ -66,17 +72,7 @@ export default {
   flex-wrap: wrap;
 }
 
-.ingrediente {
-  display: inline-block;
-  border-radius: 0.5rem;
-  min-width: 4.25rem;
-  padding: 0.5rem;
-  text-align: center;
-    transition: 0.2s;
-    color: var(--creme, #FFFAF3);
-  background: var(--coral, #F0633C);
-  font-weight: 700;
-}
+
 
 .lista-vazia {
   display: flex;
