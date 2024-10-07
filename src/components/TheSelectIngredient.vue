@@ -10,13 +10,19 @@
 
     <ul class="categorias">
       <li v-for="(categoria, index) in categorias" :key="index">
-        <CardCategory :categoria="categoria"/>
+        <CardCategory :categoria="categoria"
+        @adicionarIngrediente="$emit('adicionarIngrediente', $event)"
+        @removerIngrediente="$emit('removerIngrediente', $event )"
+
+        />
       </li>
     </ul>
 
     <p class="paragrafo dica">
       *Atenção consideramos que você tem em casa sal, pimenta e água.
     </p>
+
+    <ButtonMain></ButtonMain>
   </section>
 </template>
 
@@ -24,6 +30,7 @@
 <script>
 import { obterCategorias } from '@/http/index.ts';
 import CardCategory from './CardCategory.vue';
+import ButtonMain from './ButtonMain.vue';
 
 
 
@@ -41,8 +48,10 @@ export default {
     this.categorias = await obterCategorias();
   },
   components:{
-      CardCategory
-    }
+      CardCategory,
+      ButtonMain
+    },
+    emits:['adicionarIngrediente', 'removerIngrediente']
 }
 
 </script>

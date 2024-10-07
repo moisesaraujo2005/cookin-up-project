@@ -16,7 +16,11 @@
             Sua lista está vazia, selecione ingredientes para salvar.
         </p>
         </section>
-        <TheSelectIngredient></TheSelectIngredient>
+        <TheSelectIngredient
+        @adicionarIngrediente="ingredientes.push($event)"
+        @removerIngrediente="ingredientes.splice(ingredientes.indexOf($event), 1)"
+
+        ></TheSelectIngredient>
         
     </main>
 </template>
@@ -33,14 +37,15 @@ import TheSelectIngredient from './TheSelectIngredient.vue';
 export default {
     data() {
         return {
-            ingredientes : ['Alho', 'Manteiga', 'Orégano']
+            ingredientes : []
         }
         
     },
     components : {
       TheSelectIngredient, 
       TagText
-    }
+    },
+    
 }
 
 </script>

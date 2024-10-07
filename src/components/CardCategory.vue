@@ -7,7 +7,15 @@
     </header>
     <ul class="categoria__ingredientes">
         <li v-for="(ingrediente, index) in categoria.ingredientes" :key="index">
-          <IngredienteSelect :ingrediente="ingrediente"></IngredienteSelect>
+          <IngredienteSelect
+        
+
+          @adicionarIngrediente="$emit('adicionarIngrediente', $event)" 
+            
+          @removerIngrediente="$emit('removerIngrediente', $event)"
+          :ingrediente="ingrediente"
+          
+          ></IngredienteSelect>
         </li>
     </ul>
 </article>
@@ -31,7 +39,8 @@ export default {
     {
      
       IngredienteSelect
-    }
+    },
+    emits:['adicionarIngrediente', 'removerIngrediente']
 }
 
 </script>

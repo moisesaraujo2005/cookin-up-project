@@ -7,22 +7,42 @@ export default{
         TagText
     },
     props:{
-        ingrediente:{type : String, required:true}
+        ingrediente:{type : String, required:true},
+  
     },
     data() {
         return {
             selecionado:false
         }
-    }
-}
+    },
+    methods:{
+        aoClicar() {
+            this.selecionado=!this.selecionado
 
+            if(this.selecionado){
+                this.$emit('adicionarIngrediente', this.ingrediente)
+            }
+            else {
+                this.$emit('removerIngrediente', this.ingrediente)
+            }
+         
+
+        },
+
+      
+        
+   
+
+    emits:['adicionarIngrediente', 'removerIngrediente']
+}
+}
 </script>
 
 
 <template>
         <button
         class="ingrediente"
-        v-on:click="selecionado=!selecionado"
+        v-on:click="aoClicar()"
         :aria-pressed="selecionado"
         
         >
