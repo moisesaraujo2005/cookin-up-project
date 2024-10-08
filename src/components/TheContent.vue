@@ -1,56 +1,181 @@
 <template>
-    <main class="conteudo-principal">
-        <section>
-            <span class="subtitulo-lg sua-lista-texto">
-                Sua lista:
-            </span>
-            <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
-                <li v-for="(ingrediente, index) in ingredientes" :key="index">
-<TagText :texto="ingrediente" ativa ></TagText>
-                </li>
-               
-            </ul>
+  <main class="conteudo-principal">
+    <section>
+      <span class="subtitulo-lg sua-lista-texto">
+        Your list:
+      </span>
 
-        <p v-else  class="paragrafo lista-vazia">
-            <img src="../assets/icones/lista-vazia.svg" alt="">
-            Sua lista está vazia, selecione ingredientes para salvar.
-        </p>
-        </section>
-        <TheSelectIngredient
-        @adicionarIngrediente="ingredientes.push($event)"
-        @removerIngrediente="ingredientes.splice(ingredientes.indexOf($event), 1)"
+    
+      <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
+        <li v-for="(ingrediente, index) in ingredientes" :key="index">
+          <TagText :texto="ingrediente" ativa></TagText>
+        </li>
+      </ul>
 
-        ></TheSelectIngredient>
+   
+      <p v-else class="paragrafo lista-vazia">
+        <img src="../assets/icones/lista-vazia.svg" alt="">
         
-    </main>
+Your list is empty, select ingredients to save.
+      </p>
+    </section>
+
+   
+    <TheSelectIngredient
+      @adicionarIngrediente="adicionarIngrediente"
+      @removerIngrediente="removerIngrediente"
+    />
+
+    
+    <section v-if="ingredientes.length">
+      <button @click="buscarReceitas">Search Recipes</button>
+    </section>
+
+
+    <section v-if="receitas.length">
+      <span class="subtitulo-lg sua-lista-texto">
+        Recipes found:
+      </span>
+      <ul class="receitas-lista">
+        <li v-for="(receita, index) in receitas" :key="index">
+          <a :href="receita.sourceUrl" target="_blank">
+            <h3>{{ receita.title }}</h3>
+            <img :src="receita.image" alt="Imagem da receita" />
+          </a>
+          <p><strong>Ingredients:</strong></p>
+          <ul>
+            <li v-for="(ingrediente, index) in receita.usedIngredients" :key="index">
+              {{ ingrediente.name }}
+            </li>
+          </ul>
+          <p v-if="receita.missedIngredients.length">
+            <strong>Missing:</strong>
+            <ul>
+              <li v-for="(ingrediente, index) in receita.missedIngredients" :key="index">
+                {{ ingrediente.name }}
+              </li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+    </section>
+  </main>
 </template>
-
-
-
 <script>
 import TagText from './TagText.vue';
-
-
 import TheSelectIngredient from './TheSelectIngredient.vue';
 
-
 export default {
-    data() {
-        return {
-            ingredientes : []
-        }
-        
+  data() {
+    return {
+      ingredientes: [], 
+      receitas: [], 
+      apiKey: '1319a0a6de0546aa942ab54126c394de', 
+    };
+  },
+  components: {
+    TheSelectIngredient,
+    TagText,
+  },
+  methods: {
+ 
+    adicionarIngrediente(ingrediente) {
+     
+      if (!this.ingredientes.includes(ingrediente)) {
+        this.ingredientes.push(ingrediente);
+      }
     },
-    components : {
-      TheSelectIngredient, 
-      TagText
+
+
+    removerIngrediente(ingrediente) {
+      const index = this.ingredientes.indexOf(ingrediente);
+      if (index !== -1) {
+        this.ingredientes.splice(index, 1);
+      }
     },
-    
+
+    async buscarReceitas() {
+  console.log("Buscando receitas...");
+
+  if (this.ingredientes.length === 0) {
+    console.error("Nenhum ingrediente foi selecionado.");
+    return;
+  }
+
+  const ingredientesString = this.ingredientes.join(','); 
+
+  try {
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientesString}&number=5&apiKey=${this.apiKey}&language=pt`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Erro: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log(`Receitas encontradas para os ingredientes:`, data);
+
+    if (Array.isArray(data) && data.length > 0) {
+      this.receitas = data;
+    } else {
+      console.log("Nenhuma receita encontrada com os ingredientes informados.");
+      this.receitas = [];
+    }
+  } catch (error) {
+    console.error("Erro ao buscar receitas:", error);
+  }
 }
 
+  },
+};
 </script>
 
+
+
+
 <style scoped>
+
+.receitas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.receitas-lista li {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.receitas-lista img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.receitas-lista a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+button {
+  background-color: #f0633c;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e0512b;
+}
+
 .conteudo-principal {
   padding: 6.5rem 7.5rem;
   border-radius: 3.75rem 3.75rem 0rem 0rem;

@@ -5,12 +5,12 @@
        <img src="../assets/imagens/logo.svg" alt="logo cookin" class="logo">
    
        <p class="cabecalho-lg frase-cabelhaco">
-         <span class="texto-verde">Um banquete de ideias para</span>
-         despertar o chef que há em você!
+         <span class="texto-verde">A feast of ideas for</span>
+         awaken the chef in you!
        </p>
    
        <p class="subtitulo-lg">
-         Explore novas receitas todos os dias com os ingredientes que estão ao seu alcance
+        Explore new recipes every day with ingredients at your fingertips
        </p>
      </div>
      <img src="../assets/imagens/foto-banner.png" alt="" class="foto-banner">

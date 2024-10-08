@@ -1,6 +1,7 @@
 <template>
     <footer class="rodape paragrafo">
-        Desenvolvido por Moisés Silva, 2024 - Projeto fictício sem fins comerciais
+     
+Developed by Moisés Silva, 2024 - Fictional project without commercial purposes
     </footer>
 </template>
 

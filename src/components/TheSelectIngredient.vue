@@ -1,11 +1,11 @@
 <template>
   <section class="selecionar-ingredientes">
     <h1 class="cabecalho titulo-ingredientes">
-      Ingredientes
+      Ingredients
     </h1>
 
     <p class="paragrafo-lg instrucoes">
-      Selecione abaixo os ingredientes que você quer usar nesta receita:
+      Select the ingredients you want to use in this recipe below:
     </p>
 
     <ul class="categorias">
@@ -19,10 +19,10 @@
     </ul>
 
     <p class="paragrafo dica">
-      *Atenção consideramos que você tem em casa sal, pimenta e água.
+      *Please note that you have salt, pepper and water at home.
     </p>
 
-    <ButtonMain></ButtonMain>
+    
   </section>
 </template>
 
@@ -30,7 +30,6 @@
 <script>
 import { obterCategorias } from '@/http/index.ts';
 import CardCategory from './CardCategory.vue';
-import ButtonMain from './ButtonMain.vue';
 
 
 
@@ -49,7 +48,7 @@ export default {
   },
   components:{
       CardCategory,
-      ButtonMain
+     
     },
     emits:['adicionarIngrediente', 'removerIngrediente']
 }
