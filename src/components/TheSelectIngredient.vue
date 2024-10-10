@@ -1,5 +1,6 @@
 <template>
   <section class="selecionar-ingredientes">
+      
     <h1 class="cabecalho titulo-ingredientes">
       Ingredients
     </h1>
@@ -28,8 +29,9 @@
 
 
 <script>
-import { obterCategorias } from '@/http/index.ts';
+import { obterCategorias } from '@/http/index.js';
 import CardCategory from './CardCategory.vue';
+
 
 
 
@@ -48,6 +50,7 @@ export default {
   },
   components:{
       CardCategory,
+ 
      
     },
     emits:['adicionarIngrediente', 'removerIngrediente']
@@ -80,7 +83,7 @@ export default {
 }
 
 .dica {
-  align-self: flex-start;
+ 
   margin-bottom: 3.5rem;
 }
 

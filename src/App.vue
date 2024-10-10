@@ -1,6 +1,8 @@
 <template>
  <TheBanner></TheBanner>
-  <TheContent></TheContent>
+  <TheContent>
+
+  </TheContent>
   <TheFooter></TheFooter>
 </template>
 

@@ -1,13 +1,14 @@
 <template>
   <main class="conteudo-principal">
-    <section>
+    <section class="list">
+     
       <span class="subtitulo-lg sua-lista-texto">
         Your list:
       </span>
-
+      
     
       <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
-        <li v-for="(ingrediente, index) in ingredientes" :key="index">
+        <li v-for="(ingrediente, index) in ingredientes" :key="index" >
           <TagText :texto="ingrediente" ativa></TagText>
         </li>
       </ul>
@@ -17,7 +18,10 @@
         <img src="../assets/icones/lista-vazia.svg" alt="">
         
 Your list is empty, select ingredients to save.
+
       </p>
+       <TheSearch @ingredientSelected="adicionarIngrediente" />
+     
     </section>
 
    
@@ -63,6 +67,7 @@ Your list is empty, select ingredients to save.
 </template>
 <script>
 import TagText from './TagText.vue';
+import TheSearch from './TheSearch.vue';
 import TheSelectIngredient from './TheSelectIngredient.vue';
 
 export default {
@@ -70,12 +75,14 @@ export default {
     return {
       ingredientes: [], 
       receitas: [], 
+     
       apiKey: '1319a0a6de0546aa942ab54126c394de', 
     };
   },
   components: {
     TheSelectIngredient,
     TagText,
+    TheSearch
   },
   methods: {
  
@@ -83,7 +90,10 @@ export default {
      
       if (!this.ingredientes.includes(ingrediente)) {
         this.ingredientes.push(ingrediente);
+      
       }
+
+     
     },
 
 
@@ -95,10 +105,10 @@ export default {
     },
 
     async buscarReceitas() {
-  console.log("Buscando receitas...");
+  console.log("Buscando receita");
 
   if (this.ingredientes.length === 0) {
-    console.error("Nenhum ingrediente foi selecionado.");
+    console.error("Nenhum ingrediente.");
     return;
   }
 
@@ -106,11 +116,11 @@ export default {
 
   try {
     const response = await fetch(
-      `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientesString}&number=5&apiKey=${this.apiKey}&language=pt`
+      `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredientesString}&number=3&apiKey=${this.apiKey}&language=pt`
     );
 
     if (!response.ok) {
-      throw new Error(`Erro: ${response.statusText}`);
+      throw new Error(` ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -119,11 +129,11 @@ export default {
     if (Array.isArray(data) && data.length > 0) {
       this.receitas = data;
     } else {
-      console.log("Nenhuma receita encontrada com os ingredientes informados.");
+      console.log("Nenhuma receita encontrada .");
       this.receitas = [];
     }
   } catch (error) {
-    console.error("Erro ao buscar receitas:", error);
+    console.error("Erro ao buscar", error);
   }
 }
 
@@ -140,10 +150,11 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 45vw;
 }
 
 .receitas-lista li {
-  border: 1px solid #ddd;
+  border: 1px solid #263A29;
   padding: 1rem;
   border-radius: 8px;
   display: flex;
@@ -153,9 +164,13 @@ export default {
 }
 
 .receitas-lista img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
+  width:auto;
+    height: 29vh;
+   
+   
+    object-fit: cover;
+    border-radius: 28px;
+    border: 2px solid
 }
 .receitas-lista a{
   display: flex;
@@ -163,6 +178,8 @@ export default {
   align-items: center;
   gap: 1rem;
 }
+
+
 button {
   background-color: #f0633c;
   color: white;
@@ -214,6 +231,16 @@ button:hover {
   color: var(--coral, #F0633C);
   text-align: center;
 }
+
+.list{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2vh;
+}
+
+
 
 @media only screen and (max-width: 1300px) {
   .conteudo-principal {
